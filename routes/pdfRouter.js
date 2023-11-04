@@ -1,6 +1,11 @@
 import express from 'express'
 import multer from 'multer';
-import { pdfUpload } from '../controllers/pdfController.js';
+import { pdfDownload, pdfEdit, pdfUpload } from '../controllers/pdfController.js';
+import fs from 'fs'
+import * as url from 'url';
+import path from 'path';
+    const __filename = url.fileURLToPath(import.meta.url);
+    const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -16,5 +21,9 @@ const upload = multer({ storage: storage })
 const router = express.Router();
 
 router.post('/upload', upload.single('file'), pdfUpload)
+
+router.get('/get/:id', pdfDownload)
+
+router.post('/edit/:id', pdfEdit)
 
 export default router

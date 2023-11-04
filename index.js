@@ -8,7 +8,12 @@ import path from 'path'
 dotenv.config()
 
 //Databse connection
-mongoose.connect(process.env.MONGO).then(() => {
+const connectionParams = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+};
+mongoose.set('strictQuery', true)
+mongoose.connect(process.env.MONGO, connectionParams).then(() => {
     console.log('db connected');
 }).catch((error) => {
     console.log(error);
@@ -20,6 +25,7 @@ const app = express();
 app.use(express.json())
 app.use(cors())
 app.use("/files", express.static("files"))
+app.use("/edits", express.static("edits"))
 
 //routes
 app.use('/api/pdf', pdfRouter)
@@ -28,7 +34,7 @@ app.use('/api/pdf', pdfRouter)
 app.use((err, req, res, next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal server error';
-    console.log(message);
+    console.log(err);
     return res.status(statusCode).json({
         success: false,
         statusCode,
