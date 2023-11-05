@@ -1,11 +1,7 @@
 import express from 'express'
 import multer from 'multer';
-import { pdfDownload, pdfEdit, pdfUpload } from '../controllers/pdfController.js';
-import fs from 'fs'
-import * as url from 'url';
-import path from 'path';
-    const __filename = url.fileURLToPath(import.meta.url);
-    const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import { deletePdf, myUploads, pdfDownload, pdfEdit, pdfUpload } from '../controllers/pdfController.js';
+import { validateToken } from '../middlewares/validateToken.js';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,10 +16,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 const router = express.Router();
 
-router.post('/upload', upload.single('file'), pdfUpload)
+router.post('/upload', upload.single('file'), validateToken, pdfUpload)
 
-router.get('/get/:id', pdfDownload)
+router.get('/get/:id', validateToken, pdfDownload)
 
-router.post('/edit/:id', pdfEdit)
+router.post('/edit/:id', validateToken, pdfEdit)
+
+router.get('/my-uploads', validateToken, myUploads)
+
+router.delete('/delete/:id', validateToken, deletePdf)
 
 export default router

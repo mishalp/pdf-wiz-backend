@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import pdfRouter from './routes/pdfRouter.js'
-import path from 'path'
+import userRouter from './routes/userRouter.js'
 
 dotenv.config()
 
@@ -29,6 +29,7 @@ app.use("/edits", express.static("edits"))
 
 //routes
 app.use('/api/pdf', pdfRouter)
+app.use('/api/user', userRouter)
 
 //error handler
 app.use((err, req, res, next)=>{
