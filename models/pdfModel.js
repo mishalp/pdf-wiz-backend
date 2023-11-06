@@ -6,4 +6,4 @@ const PdfSchema = new Schema({
     user: { type: String, required: true}
 })
 
-export default mongoose.model('GuestPdf', PdfSchema)
+export default mongoose.model('Pdf', PdfSchema)

@@ -9,6 +9,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
+  "homepage": "https://chic-gecko-91a4fd.netlify.app",
   "keywords": [],
   "author": "",
   "license": "ISC",
